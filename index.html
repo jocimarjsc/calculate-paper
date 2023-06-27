@@ -34,25 +34,23 @@
                 <div class="paper">
                     <span>Tamanho Corte</span>
                     <div class="form">
-                        <input type="number" pattern="\d*" id="paper-width" placeholder="Largura">
+                        <input type="number" pattern="\d*" id="cut-width" placeholder="Largura">
                         <span>cm</span>
                     </div>
 
                     <div class="form">
-                        <input type="number" pattern="\d*" id="paper-height" placeholder="Altura">
+                        <input type="number" pattern="\d*" id="cut-height" placeholder="Altura">
                         <span>cm</span>
                     </div>
                 </div>
             </div>
             <div class="reports">
                 <canvas id="cutPaper"></canvas>
-                <footer>
-                    <span>90% utilizado</span>
-                    <span>10% não utilizado</span>
-                </footer>
+                <footer id="used"></footer>
+                <div id="result" class="result"></div>
             </div>
         </main>
-        <footer><button id="button" type="submit">Calcular</button></footer>
+        <footer><button id="preview" type="submit">Calcular</button></footer>
     </div>
 
     <script src="script.js"></script>

@@ -22,7 +22,6 @@
 
 body {
     width: 100vw;
-    height: auto;
     font-size: 1.6rem;
 
     background-color: var(--color-background);
@@ -34,14 +33,13 @@ body {
 }
 
 #app {
-    width: 80%;
+    width: 100%;
     background-color: #fff;
     border: 1px solid #C1B1AA;
 
     border-radius: .8rem;
 
     padding: 2rem;
-    margin-top: 1.2rem;
 }
 
 /* header */
@@ -141,6 +139,13 @@ canvas {
     gap: .8rem;
 }
 
+.reports .result span {
+    width: 100%;
+
+    font-size: 1.4rem;
+    text-align: center;
+}
+
 .reports footer span {
     width: 100%;
 
@@ -192,5 +197,9 @@ footer button:hover,
     main {
         display: flex;
         flex-direction: column-reverse;
+    }
+
+    header {
+        display: none;
     }
 }
