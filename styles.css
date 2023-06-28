@@ -113,7 +113,7 @@ hr {
 }
 
 canvas {
-    width: 100%;
+    /* width: 100%; */
     border: 1px solid var(--color-brand-text);
     padding: 0;
     border-radius: .8rem;
