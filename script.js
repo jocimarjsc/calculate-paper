@@ -2,6 +2,7 @@ const calculate = document.querySelector("#preview")
 const used = document.querySelector("#used")
 const printResult = document.querySelector("#result")
 const canvas = document.querySelector("#cutPaper")
+const app = document.querySelector("#app")
 
 calculate.addEventListener("click", runApp)
 
@@ -80,14 +81,14 @@ function caculatePercentage (cutArea, paperPercentagem, paperArea) {
 
 function initialCanvas(canvas, paper, cut, result) {
     const ctx = canvas.getContext("2d")
-
+    
     const paperWidth = Math.max(paper.width, paper.height)
     const paperHeight = Math.min(paper.width, paper.height)
+    const i = (app.offsetWidth - 40) / paperWidth
 
-    const cutWidth = Math.max(cut.width, cut.height)
-    const cutHeight = Math.min(cut.width, cut.height)
+    const cutWidth = Math.max((cut.width * i), (cut.height * i))
+    const cutHeight = Math.min((cut.width * i), (cut.height * i))
 
-    const i = 333 / paperWidth
     canvas.width = `${paperWidth * i}`
     canvas.height = `${paperHeight * i}`
 
@@ -98,24 +99,25 @@ function initialCanvas(canvas, paper, cut, result) {
     ctx.strokeStyle = "black"
     ctx.font = '12px serif'
 
-    draw(ctx, result.width, result.height, result.quantity, canvas.width,canvas.height, cutWidth,cutHeight, result.horizontal, i)
+    draw(ctx, result.width, result.height, result.quantity, canvas.width,canvas.height, cutWidth,cutHeight, result.horizontal)
 
-    ctx.fillStyle = "black"
-    ctx.fillText(cut.height,(cut.height * i) / 2,(cut.width * i) - 1)
-    ctx.fillText(cut.width,(cut.height * i) /+ 1,(cut.width * i) / 2)
+    // ctx.fillStyle = "black"
+    // ctx.fillText(cut.height,(cut.height * i) / 2,(cut.width * i) - 1)
+    // ctx.fillText(cut.width,(cut.height * i) /+ 1,(cut.width * i) / 2)
 
 }
 
-function draw(ctx,qtWidth, qtHeight, total, canvasWidth, canvasHeight, cutWidth, cutHeight, horizontal, i) {
+function draw(ctx,qtWidth, qtHeight, total, canvasWidth, canvasHeight, cutWidth, cutHeight, horizontal) {
+    
     let gridWidth = 0
     let gridHeight = 0
 
     if(horizontal) {
-        gridWidth = cutWidth * i
-        gridHeight = cutHeight * i
+        gridWidth = cutWidth
+        gridHeight = cutHeight
     } else {
-        gridWidth = cutHeight * i
-        gridHeight = cutWidth * i
+        gridWidth = cutHeight
+        gridHeight = cutWidth
     }
 
 
