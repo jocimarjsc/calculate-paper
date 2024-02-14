@@ -14,15 +14,26 @@ function runApp(e) {
         area: undefined,
         percentage: 100
     }
-    
+
+    if (paper.width === "" || paper.height === "") {
+        printMessage({ isAlert: true, message: "Preencha as medidas do papel!" })
+        return
+    }
+
     paper.area = calculateArea(paper.width, paper.height)
-    
+
     const cut = {
         width: document.querySelector("#cut-width").value,
         height: document.querySelector("#cut-height").value,
         area: undefined,
         percentage: undefined
     }
+
+    if (cut.width === "" || cut.height === "") {
+        printMessage({ isAlert: true, message: "Preencha as medidas do corte!" })
+        return
+    }
+
     cut.area = calculateArea(cut.width, cut.height)
     cut.percentage = caculatePercentage(cut.area, paper.percentage, paper.area)
 
@@ -31,11 +42,11 @@ function runApp(e) {
     const quantityWidthWidth = restultWidthWidth * resultHeightHeight
 
     const resultWidthHeight = Math.floor(paper.width / cut.height)
-    const resultHeightWidht = Math.floor(paper.height /  cut.width)
+    const resultHeightWidht = Math.floor(paper.height / cut.width)
     const quantityWidthHeight = resultWidthHeight * resultHeightWidht
 
-    
-    if(quantityWidthWidth > quantityWidthHeight) {
+
+    if (quantityWidthWidth > quantityWidthHeight) {
         const usedArea = cut.percentage * quantityWidthWidth
         const unsedArea = paper.percentage - usedArea
         const result = {
@@ -44,15 +55,17 @@ function runApp(e) {
             usedArea: usedArea.toFixed(2),
             unsedArea: unsedArea.toFixed(2),
             quantity: quantityWidthWidth,
-            horizontal: true
-    
+            horizontal: true,
+            cutWidth: cut.width,
+            cutHeight: cut.height,
+            paperWidth: paper.width,
+            paperHeight: paper.height
         }
 
         initialCanvas(canvas, paper, cut, result)
-        
-        used.innerHTML = `<span>${result.usedArea}% utilizado</span><span>${result.unsedArea}% não utilizado</span>`
-        printResult.innerHTML = `<span>Cabe <strong>${result.quantity}</strong> tamanhos <strong>${cut.width}x${cut.height}cm</strong>, em ${paper.width}x${paper.height}cm</span>`
-    }else {
+
+        printMessage(result)
+    } else {
         const usedArea = cut.percentage * quantityWidthHeight
         const unsedArea = paper.percentage - usedArea
         const result = {
@@ -61,27 +74,40 @@ function runApp(e) {
             usedArea: usedArea.toFixed(2),
             unsedArea: unsedArea.toFixed(2),
             quantity: quantityWidthHeight,
-            horizontal: false
-    
+            horizontal: false,
+            cutWidth: cut.width,
+            cutHeight: cut.height,
+            paperWidth: paper.width,
+            paperHeight: paper.height
         }
-        
+
         initialCanvas(canvas, paper, cut, result)
-        used.innerHTML = `<span>${result.usedArea}% utilizado</span><span>${result.unsedArea}% não utilizado</span>`
-        printResult.innerHTML = `<span>Cabe <strong>${result.quantity}</strong> tamanhos <strong>${cut.width}x${cut.height}cm</strong>, em ${paper.width}x${paper.height}cm</span>`
+        
+        printMessage(result)
     }
+}
+
+function printMessage({ usedArea, unsedArea, quantity, cutWidth, cutHeight, paperWidth, paperHeight, isAlert, message }) {
+    if (isAlert === true) {
+        used.innerHTML = ""
+        used.innerHTML = `<span class="danger">${message}</span>`
+        return
+    }
+    used.innerHTML = `<span class="success">${usedArea}% utilizado</span><span class="danger">${unsedArea}% não utilizado</span>`
+    printResult.innerHTML = `<span>Cabe <strong>${quantity}</strong> tamanhos <strong>${cutWidth}x${cutHeight}mm</strong>, em ${paperWidth}x${paperHeight}cm</span>`
 }
 
 function calculateArea(width, height) {
     return width * height
 }
 
-function caculatePercentage (cutArea, paperPercentagem, paperArea) {
+function caculatePercentage(cutArea, paperPercentagem, paperArea) {
     return (cutArea * paperPercentagem) / paperArea
 }
 
 function initialCanvas(canvas, paper, cut, result) {
     const ctx = canvas.getContext("2d")
-    
+
     const paperWidth = Math.max(paper.width, paper.height)
     const paperHeight = Math.min(paper.width, paper.height)
     const i = (app.offsetWidth - 40) / paperWidth
@@ -94,25 +120,21 @@ function initialCanvas(canvas, paper, cut, result) {
 
     canvas.style.backgroundColor = "gray"
     canvas.style.borderRadius = "0"
-    
+
     ctx.fillStyle = "white"
     ctx.strokeStyle = "black"
     ctx.font = '12px serif'
 
-    draw(ctx, result.width, result.height, result.quantity, canvas.width,canvas.height, cutWidth,cutHeight, result.horizontal)
-
-    // ctx.fillStyle = "black"
-    // ctx.fillText(cut.height,(cut.height * i) / 2,(cut.width * i) - 1)
-    // ctx.fillText(cut.width,(cut.height * i) /+ 1,(cut.width * i) / 2)
+    draw(ctx, result.width, result.height, result.quantity, canvas.width, canvas.height, cutWidth, cutHeight, result.horizontal)
 
 }
 
-function draw(ctx,qtWidth, qtHeight, total, canvasWidth, canvasHeight, cutWidth, cutHeight, horizontal) {
-    
+function draw(ctx, qtWidth, qtHeight, total, canvasWidth, canvasHeight, cutWidth, cutHeight, horizontal) {
+
     let gridWidth = 0
     let gridHeight = 0
 
-    if(horizontal) {
+    if (horizontal) {
         gridWidth = cutWidth
         gridHeight = cutHeight
     } else {
@@ -134,24 +156,5 @@ function draw(ctx,qtWidth, qtHeight, total, canvasWidth, canvasHeight, cutWidth,
     ctx.strokeStyle = "lightgray";
     ctx.lineWidth = 1;
 
-
     ctx.stroke();
-
-
-
-
-
-
-
-
-    // for (let index = 0; index < qtWidth; index++) {
-    //     let c = canvasWidth/qtWidth
-
-    //     ctx.fillRect(0,0, canvasWidth/qtWidth, canvasHeight/qtHeight)
-    //     ctx.strokeRect(0,0, canvasWidth/qtWidth, canvasHeight/qtHeight)
-
-    //     ctx.fillRect(c,0, canvasWidth/qtWidth, canvasHeight/qtHeight)
-    //     ctx.strokeRect(c,0, canvasWidth/qtWidth, canvasHeight/qtHeight)
-        
-    // }
 }
