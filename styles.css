@@ -3,10 +3,15 @@
 :root {
     --color-brand-purpple: #6041BA;
     --color-brand-green: #4DB087;
+    --color-brand-yellow: rgb(255 167 11);
+    --color-brand-yellow-dark: rgb(146, 93, 1);
+    --color-brand-warning: rgba(255, 167, 11, .4);
     --color-brand-red: #EA356E;
-    --color-brand-text: #6F6F6F;
+    --color-brand-text: #6F6F6F;;
 
     --color-background: #EDEDEE;
+
+    --color-opacity: 1;
 
     font-family: Poppins;
     font-size: 62.5%;
@@ -143,7 +148,6 @@ hr {
     color: var(--color-background);
 }
 
-
 .reports {
     width: 100%;
     height: 100%;
@@ -202,6 +206,20 @@ footer .result span {
     background-color: var(--color-brand-green);
 
     padding: .6rem;
+    border-radius: .8rem;
+}
+
+.warning {
+    width: 100%;
+
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--color-brand-yellow-dark);
+    
+    background-color: var(--color-brand-warning);
+
+    padding: .6rem;
+    border: 1.8px solid var(--color-brand-yellow);
     border-radius: .8rem;
 }
 
