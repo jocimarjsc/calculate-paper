@@ -107,7 +107,7 @@ function printMessage({ usedArea, unsedArea, quantity, cutWidth, cutHeight, pape
         return
     }
     used.innerHTML = `<span class="success">${usedArea}% utilizado</span><span class="danger">${unsedArea}% não utilizado</span>`
-    printResult.innerHTML = `<span>Cabe <strong>${quantity}</strong> tamanhos <strong>${cutWidth}x${cutHeight}mm</strong>, em ${paperWidth}x${paperHeight}cm</span>`
+    printResult.innerHTML = `<span>Cabe <strong>${quantity}</strong> tamanhos <strong>${cutWidth}x${cutHeight}mm</strong>, em ${paperWidth}x${paperHeight}mm</span>`
 }
 
 function calculateArea(width, height) {
